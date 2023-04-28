@@ -1,0 +1,18 @@
+---
+# defaults file for virtualenv-install
+virtualenv_install_name:
+virtualenv_install_base_path: /opt
+virtualenv_install_path: "{{ virtualenv_install_base_path }}/{{ virtualenv_install_name }}"
+
+virtualenv_install_build_deps: []
+virtualenv_install_build_deps_state: latest
+
+# Packages to install
+virtualenv_install_target_packages: []
+virtualenv_install_target_build_environment: {}
+virtualenv_install_target_packages_state: latest
+
+# Target directory to link binaries to
+virtualenv_install_link_target: /usr/bin
+# Binaries to link from the virtualenv to
+virtualenv_install_link_binaries: []

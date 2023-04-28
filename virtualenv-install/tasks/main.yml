@@ -1,0 +1,30 @@
+---
+- name: Check that required variables are set
+  ansible.builtin.assert:
+    that:
+      - virtualenv_install_name is defined
+      - virtualenv_install_name
+      - virtualenv_install_target_packages is defined
+      - virtualenv_install_target_packages
+    msg: 'Needed variables were not defined'
+
+- name: Install build deps
+  ansible.builtin.pip:
+    name: "{{ virtualenv_install_build_deps }}"
+    state: "{{ virtualenv_install_build_deps_state }}"
+    virtualenv: "{{ virtualenv_install_path }}"
+  when: virtualenv_install_build_deps
+
+- name: Install packages
+  ansible.builtin.pip:
+    name: "{{ virtualenv_install_target_packages }}"
+    state: "{{ virtualenv_install_build_deps_state }}"
+    virtualenv: "{{ virtualenv_install_path }}"
+  environment: "{{ virtualenv_install_target_build_environment }}"
+
+- name: Link virtualenv binaries
+  ansible.builtin.file:
+    state: link
+    src: "{{ virtualenv_install_path }}/bin/{{ item }}"
+    dest: "{{ virtualenv_install_link_target }}/{{ item }}"
+  loop: "{{ virtualenv_install_link_binaries }}"
